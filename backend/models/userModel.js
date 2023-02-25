@@ -2,27 +2,27 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
     {
-        name: {
+        EmployeeID: {
             type: String,
-            required: [true, "Add name please"],
+            required: [true, "Add employee ID please"],
         },
-        email: {
+        FirstName: {
             type: String,
-            unique: true,
-            required: [true, "Add email please"],
+            required: [true, "Add first name please"],
         },
-        password: {
+        LastName: {
+            type: String,
+            required: [true, "Add last name please"],
+        },
+        Password: {
             type: String,
             required: [true, "Add password please"],
         },
-        isAdmin: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
-    },
-    {
-        timestamps: true,
+        Age: {
+            type: Number,
+            required: [true, "Add age please"],
+            default: 100
+        }
     }
 );
 
