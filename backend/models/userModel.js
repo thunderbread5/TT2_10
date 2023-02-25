@@ -2,28 +2,23 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
     {
-        employeeId: {
+        EmployeeID: {
             type: String,
             required: [true, "Add employee ID please"],
         },
-        name: {
+        FirstName: {
             type: String,
-            required: [true, "Add name please"],
+            required: [true, "Add first name please"],
         },
-        lastName: {
+        LastName: {
             type: String,
             required: [true, "Add last name please"],
         },
-        email: {
-            type: String,
-            unique: true,
-            required: [true, "Add email please"],
-        },
-        password: {
+        Password: {
             type: String,
             required: [true, "Add password please"],
         },
-        age: {
+        Age: {
             type: Number,
             required: [true, "Add age please"],
             default: 100

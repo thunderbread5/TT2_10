@@ -2,52 +2,52 @@ const mongoose = require("mongoose");
 
 const claimSchema = mongoose.Schema(
     {
-        employeeId: {
+        EmployeeID: {
             type: String,
             required: [true, "Add employee ID please"],
         },
-        insuranceId: {
+        InsuranceID: {
             type: String,
             required: [true, "Add insurance ID please"],
         },
-        name: {
+        FirstName: {
             type: String,
             required: [true, "Add first name please"],
         },
-        lastName: {
+        LastName: {
             type: String,
             required: [true, "Add last name please"],
         },
-        expenseDate: {
+        ExpenseDate: {
             type: String,
             required: [true, "Add expense date please"],
         },
-        amount: {
+        Amount: {
             type: Number,
             required: [true, "Add amount please"],
         },
-        purpose: {
+        Purpose: {
             type: String,
             required: [true, "Add purpose please"],
         },
-        followUp: {
+        FollowUp: {
             type: Number,
             required: [true, "Add followUp please"],
             default: 0,
         },
-        previousClaimId: {
+        PreviousClaimID: {
             type: Number,
             required: [true, "Add previousClaimId please"],
             default: -1,
         },
-        currentStatus: {
+        Status: {
             type: String,
-            required: [true, "Add previousClaimId please"],
+            required: [true, "Add status please"],
             default: "Pending",
         },
-        lastEditedClaimDate: {
+        LastEditedClaimDate: {
             type: String,
-            required: [true, "Add date please"],
+            required: [true, "Add last edited claim date please"],
             default: Date.now().toString(),
         }
     }
