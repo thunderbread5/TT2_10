@@ -66,7 +66,7 @@ function Login() {
                             name="email"
                             value={email}
                             onChange={onChange}
-                            placeholder="Enter email"
+                            placeholder="Enter Employee ID"
                             required
                         />
                     </div>
