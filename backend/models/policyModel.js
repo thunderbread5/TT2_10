@@ -2,35 +2,35 @@ const mongoose = require("mongoose");
 
 const policySchema = mongoose.Schema(
     {
-        insuranceId: {
+        InsuranceID: {
             type: Number,
             required: [true, "Add insurance ID please"],
         },
-        employeeId: {
+        EmployeeID: {
             type: Number,
             required: [true, "Add employee ID please"],
         },
-        insuranceType: {
+        InsuranceType: {
             type: String,
             required: [true, "Add insurance type please"],
         },
-        policyStartDate: {
+        PolicyStartDate: {
             type: String,
             required: [true, "Add policy start date please"],
         },
-        policyTerm: {
+        PolicyTerm: {
             type: String,
             required: [true, "Add policy term please"],
         },
-        policyEndDate: {
+        PolicyEndDate: {
             type: String,
             required: [true, "Add policy end date please"],
         },
-        claimLimit: {
+        ClaimLimit: {
             type: Number,
             required: [true, "Add claim limit please"],
         },
-        remainingClaimLimit: {
+        RemainingClaimLimit: {
             type: Number,
             required: [true, "Add remaining claim limit please"],
         }
