@@ -8,7 +8,10 @@ const port = process.env.PORT || 5000;
 const uri = "mongodb+srv://john088:A1122334455A@cluster0.hpiinuy.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  }));
 app.use("/api/users", router);
 
 mongoose

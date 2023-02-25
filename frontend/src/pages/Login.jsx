@@ -7,11 +7,11 @@ import UserContext from "../context/user/UserContext";
 
 function Login() {
     const [formData, setFormData] = useState({
-        employeeId: "",
-        password: "",
+        EmployeeID: "",
+        Password: "",
     });
 
-    const { employeeId, password } = formData;
+    const { EmployeeID, Password } = formData;
 
     const navigate = useNavigate();
 
@@ -39,8 +39,8 @@ function Login() {
     const onSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            employeeId,
-            password,
+            EmployeeID,
+            Password,
         };
         login(userData);
     };
@@ -62,9 +62,9 @@ function Login() {
                         <input
                             type="number"
                             className="form-control"
-                            id="employeeId"
-                            name="employeeId"
-                            value={employeeId}
+                            id="EmployeeID"
+                            name="EmployeeID"
+                            value={EmployeeID}
                             onChange={onChange}
                             placeholder="Enter Employee ID"
                             required
@@ -74,9 +74,9 @@ function Login() {
                         <input
                             type="password"
                             className="form-control"
-                            id="password"
-                            name="password"
-                            value={password}
+                            id="Password"
+                            name="Password"
+                            value={Password}
                             onChange={onChange}
                             placeholder="Enter password"
                             required

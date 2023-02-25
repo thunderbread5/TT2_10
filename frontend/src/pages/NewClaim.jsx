@@ -6,6 +6,7 @@ import UserContext from "../context/user/UserContext";
 
 function NewClaim() {
     const [formData, setFormData] = useState({
+        insuranceId: "",
         expenseDate: "",
         amount: "",
         purpose: "",
@@ -13,7 +14,8 @@ function NewClaim() {
         prevClaimId: -1,
     });
 
-    const { expenseDate, amount, purpose, followUp, prevClaimId } = formData;
+    const { expenseDate, amount, purpose, followUp, prevClaimId, insuranceId } =
+        formData;
 
     const navigate = useNavigate();
 
@@ -52,7 +54,17 @@ function NewClaim() {
                         id="receiptNumber"
                         name="receiptNumber"
                     ></input>
-                    <label htmlFor="expenseDate">Receipt Date: </label>
+                    <label htmlFor="insuranceId">Insurance Id: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter your Insurance Id number here"
+                        id="insuranceId"
+                        name="insuranceId"
+                        value={insuranceId}
+                        onChange={onChange}
+                        required
+                    ></input>
+                    <label htmlFor="expenseDate">Expense Date: </label>
                     <input
                         type="date"
                         placeholder="dd-mm-yy"

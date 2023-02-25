@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaEye, FaPen } from "react-icons/fa";
 import UserContext from "../context/user/UserContext";
 import ClaimItem from "../components/ClaimItem";
 
 function Home() {
-    const { user, claims } = useContext(UserContext);
+    const { user, claims, getClaims } = useContext(UserContext);
+
+    useEffect(() => {
+        const claims = getClaims();
+    }, []);
 
     if (!user) {
         return (
@@ -16,7 +20,6 @@ function Home() {
             </>
         );
     }
-
     return (
         <div>
             <h1>Claims</h1>
@@ -31,7 +34,8 @@ function Home() {
                     <div></div>
                 </div>
                 {claims.map((claim) => (
-                    <ClaimItem key={claim.claimId} claim={claim} />
+                    // console.log(item)
+                    <ClaimItem key={claim._id} claim={claim} />
                 ))}
             </div>
         </div>
