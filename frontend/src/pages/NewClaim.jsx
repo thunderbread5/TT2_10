@@ -62,7 +62,9 @@ function NewClaim() {
                     ></input>
                     <label htmlFor="Claimamount">Claim amount </label>
                     <input
-                        type="text"
+                        type="number"
+                        pattern="[0-9]*"
+                        // type="string"
                         placeholder="Enter claim amount here"
                         id="claimamount"
                         name="claimamount"
