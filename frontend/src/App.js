@@ -8,6 +8,8 @@ import Register from "./pages/Register";
 import Header from "./components/Header";
 import { UserProvider } from "./context/user/UserContext";
 import NewClaim from "./pages/NewClaim";
+import View from "./pages/View";
+
 
 function App() {
 
@@ -22,6 +24,7 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
                             <Route path="/newclaim" element={<NewClaim />} />
+                            <Route path="/viewclaim" element={<View />} />
                         </Routes>
                     </div>
                 </Router>

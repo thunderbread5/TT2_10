@@ -16,7 +16,7 @@ function Header() {
     return (
         <header className="header">
             <div className="logo">
-                <Link to="/">Template</Link>
+                <Link to="/">DBSClaim</Link>
             </div>
             <ul>
                 {user ? (
@@ -33,12 +33,12 @@ function Header() {
                                 Login
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/Register">
                                 <FaUser />
                                 Register
                             </Link>
-                        </li>
+                        </li> */}
                     </>
                 )}
             </ul>
