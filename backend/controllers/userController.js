@@ -142,6 +142,26 @@ const addClaim = asyncHandler(async (req, res) => {
     }
 });
 
+const getClaims = asyncHandler(async (req, res) => {
+    const { employeeId } = req.body;
+    if (!employeeId) {
+        res.status(400);
+        throw new Error("Please include employeeId");
+    }
+
+    // Find if user exists
+    const userExists = await User.findOne({ employeeId });
+    if (!userExists) {
+        res.status(400);
+        throw new Error("User not found");
+    }
+
+    // get all claims
+    let claims;
+    claims = await Claim.find({employeeId: employeeId});
+    return res.status(200).json({ claims });
+});
+
 
 
 
@@ -150,4 +170,5 @@ module.exports = {
     loginUser,
     getMe,
     addClaim,
+    getClaims,
 };
