@@ -17,7 +17,7 @@ router.get("/me", protect, getMe);
 router.post("/policies", addPolicy);
 router.get("/policies", protect, getPolicies);
 router.post("/claims", protect, addClaim);
-router.get("/claims", protect, getClaims);
+router.post("/claims/getAll", protect, getClaims);
 router.post("/claims/delete", protect, deleteClaim);
 router.put("/claims/update", protect, updateClaim);
 
