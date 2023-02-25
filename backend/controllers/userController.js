@@ -188,14 +188,14 @@ const addClaim = asyncHandler(async (req, res) => {
 });
 
 const getClaims = asyncHandler(async (req, res) => {
-    const { employeeId } = req.body;
-    if (!employeeId) {
+    const { EmployeeID } = req.body;
+    if (!EmployeeID) {
         res.status(400);
-        throw new Error("Please include employeeId");
+        throw new Error("Please include EmployeeID");
     }
 
     // Find if user exists
-    const userExists = await User.findOne({ employeeId });
+    const userExists = await User.findOne({ EmployeeID });
     if (!userExists) {
         res.status(400);
         throw new Error("User not found");
@@ -203,25 +203,25 @@ const getClaims = asyncHandler(async (req, res) => {
 
     // get all claims
     let claims;
-    claims = await Claim.find({ employeeId: employeeId });
+    claims = await Claim.find({ EmployeeID: EmployeeID });
     return res.status(200).json({ claims });
 });
 
 const deleteClaim = asyncHandler(async (req, res) => {
-    const { claimId } = req.body;
-    if (!claimId) {
+    const { ClaimID } = req.body;
+    if (!ClaimID) {
         res.status(400);
-        throw new Error("Please include claimId");
+        throw new Error("Please include ClaimID");
     }
 
     // Find if claim exists
-    const claim = await Claim.findOne({ claimId });
+    const claim = await Claim.findOne({ ClaimID });
     if (!claim) {
         res.status(400);
         throw new Error("Claim not found");
     }
-    claim.remove({ claimId: claimId });
-    return res.status(200).json({ message: "Successful delete of claimId:" + claimId });
+    claim.remove({ ClaimID: ClaimID });
+    return res.status(200).json({ message: "Successful delete of ClaimID:" + ClaimID });
 
     // get all claims
 
