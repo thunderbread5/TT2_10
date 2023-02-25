@@ -7,11 +7,11 @@ import UserContext from "../context/user/UserContext";
 
 function Login() {
     const [formData, setFormData] = useState({
-        email: "",
+        employeeId: "",
         password: "",
     });
 
-    const { email, password } = formData;
+    const { employeeId, password } = formData;
 
     const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function Login() {
         }
         // redirect when login
         if (isSuccess) {
-            toast.success(`Welcome - ${user.name}`);
+            toast.success(`Welcome - ${user.FirstName}`);
             navigate("/");
         }
     }, [isSuccess, user, navigate, message]);
@@ -39,15 +39,15 @@ function Login() {
     const onSubmit = (e) => {
         e.preventDefault();
         const userData = {
-            email,
+            employeeId,
             password,
         };
         login(userData);
     };
 
-    if (loading) {
-        return <Spinner />
-    }
+    // if (loading) {
+    //     return <Spinner />
+    // }
 
     return (
         <div>
@@ -60,13 +60,13 @@ function Login() {
                 <form onSubmit={onSubmit}>
                     <div className="form-group">
                         <input
-                            type="email"
+                            type="number"
                             className="form-control"
-                            id="email"
-                            name="email"
-                            value={email}
+                            id="employeeId"
+                            name="employeeId"
+                            value={employeeId}
                             onChange={onChange}
-                            placeholder="Enter email"
+                            placeholder="Enter Employee ID"
                             required
                         />
                     </div>
