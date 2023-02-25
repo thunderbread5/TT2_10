@@ -44,7 +44,29 @@ function NewClaim() {
                 <FaRegPlusSquare /> Create Claim
             </h1>
             <form onSubmit={onSubmit}>
+
                 <div className="form-group">
+                    <label htmlFor="FirstName">First Name: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter your First Name here"
+                        id="firstname"
+                        name="firstname"
+                    ></input>
+                    <label htmlFor="LastName">Last Name: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter your Last Name here"
+                        id="lastname"
+                        name="lastname"
+                    ></input>
+                    <label htmlFor="Claimamount">Claim amount: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter claim amount here"
+                        id="claimamount"
+                        name="claimamount"
+                    ></input>
                     <label htmlFor="receiptNumber">Receipt Number: </label>
                     <input
                         type="text"
