@@ -7,10 +7,6 @@ import ClaimItem from "../components/ClaimItem";
 function Home() {
     const { user, claims, getClaims } = useContext(UserContext);
 
-    useEffect(() => {
-        const claims = getClaims();
-    }, []);
-
     if (!user) {
         return (
             <>

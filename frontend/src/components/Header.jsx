@@ -10,7 +10,7 @@ function Header() {
     const onLogout = () => {
         logout();
         navigate("/");
-        window.location.reload()
+        window.location.reload();
     };
 
     return (
@@ -20,11 +20,23 @@ function Header() {
             </div>
             <ul>
                 {user ? (
-                    <li>
-                        <button className="btn" onClick={onLogout}>
-                            <FaSignOutAlt /> Logout
-                        </button>
-                    </li>
+                    <>
+                        <li>
+                            <button className="btn" onClick={onLogout}>
+                                <FaSignOutAlt /> Logout
+                            </button>
+                        </li>
+                        <li>
+                            <Link to="/newclaim">
+                                New Claim
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/viewclaim">
+                                View Claim
+                            </Link>
+                        </li>
+                    </>
                 ) : (
                     <>
                         <li>
