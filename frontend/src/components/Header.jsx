@@ -33,12 +33,12 @@ function Header() {
                                 Login
                             </Link>
                         </li>
-                        <li>
+                        {/* <li>
                             <Link to="/Register">
                                 <FaUser />
                                 Register
                             </Link>
-                        </li>
+                        </li> */}
                     </>
                 )}
             </ul>
