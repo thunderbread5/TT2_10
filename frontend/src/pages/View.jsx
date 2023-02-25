@@ -20,7 +20,7 @@ function ViewClaim() {
             id="ExpenseDate"
             name="ExpenseDate"
             value={0}
-            disabled
+            disabled={""} //for view function
           ></input>
           <label htmlFor="date">Receipt Date: </label>
           <input
