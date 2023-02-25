@@ -142,9 +142,9 @@ const getMyPolicies = asyncHandler(async (req, res) => {
     });
 
 const addClaim = asyncHandler(async (req, res) => {
-    const { EmployeeID, ClaimID, InsuranceID, FirstName, LastName, ExpenseDate, Amount, Purpose,
+    const { EmployeeID, InsuranceID, FirstName, LastName, ExpenseDate, Amount, Purpose,
         FollowUp, PreviousClaimID, Status, LastEditedClaimDate } = req.body;
-    if (!EmployeeID || !ClaimID || !InsuranceID) {
+    if (!EmployeeID || !InsuranceID) {
         res.status(400);
         throw new Error("Please include all fields");
     }
@@ -158,38 +158,64 @@ const addClaim = asyncHandler(async (req, res) => {
 
     // Create claim
     const claim = await Claim.create({
-        EmployeeID,
-        ClaimID,
-        InsuranceID,
-        FirstName,
-        LastName,
-        ExpenseDate,
-        Amount,
-        Purpose,
-        FollowUp,
-        PreviousClaimID,
-        Status,
-        LastEditedClaimDate,
+        EmployeeID: EmployeeID,
+        InsuranceID: InsuranceID,
+        FirstName: userExists.FirstName,
+        LastName: userExists.LastName,
+        ExpenseDate: ExpenseDate,
+        Amount: Amount,
+        Purpose: Purpose,
+        FollowUp: FollowUp,
+        PreviousClaimID: PreviousClaimID,
+        Status: Status,
+        LastEditedClaimDate: LastEditedClaimDate,
     });
     if (claim) {
-        res.status(201).json({
-            EmployeeID: claim.EmployeeID,
-            ClaimID: claim.ClaimID,
-            InsuranceID: claim.InsuranceID,
-            FirstName: claim.FirstName,
-            LastName: claim.LastName,
-            ExpenseDate: claim.ExpenseDate,
-            Amount: claim.Amount,
-            Purpose: claim.Purpose,
-            FollowUp: claim.FollowUp,
-            PreviousClaimID: claim.PreviousClaimID,
-            Status: claim.Status,
-            LastEditedClaimDate: claim.LastEditedClaimDate,
-        });
+        res.status(201).json({ claim });
     } else {
         res.status(400);
-        throw new Error("Invalid user data");
+        throw new Error("Invalid claim data");
     }
+});
+
+const getClaims = asyncHandler(async (req, res) => {
+    const { employeeId } = req.body;
+    if (!employeeId) {
+        res.status(400);
+        throw new Error("Please include employeeId");
+    }
+
+    // Find if user exists
+    const userExists = await User.findOne({ employeeId });
+    if (!userExists) {
+        res.status(400);
+        throw new Error("User not found");
+    }
+
+    // get all claims
+    let claims;
+    claims = await Claim.find({employeeId: employeeId});
+    return res.status(200).json({ claims });
+});
+
+const deleteClaim = asyncHandler(async (req, res) => {
+    const { claimId } = req.body;
+    if (!claimId) {
+        res.status(400);
+        throw new Error("Please include claimId");
+    }
+
+    // Find if claim exists
+    const claim = await Claim.findOne({ claimId });
+    if (!claim) {
+        res.status(400);
+        throw new Error("Claim not found");
+    }
+    claim.remove({claimId: claimId});
+    return res.status(200).json({ message: "Successful delete of claimId:" +  claimId});
+
+    // get all claims
+
 });
 
 module.exports = {
@@ -198,4 +224,6 @@ module.exports = {
     getMe,
     addPolicy,
     addClaim,
+    getClaims,
+    deleteClaim,
 };
