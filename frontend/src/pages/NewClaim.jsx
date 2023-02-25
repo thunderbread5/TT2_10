@@ -53,14 +53,14 @@ function NewClaim() {
                         id="firstname"
                         name="firstname"
                     ></input>
-                    <label htmlFor="LastName">Last Name: </label>
+                    <label htmlFor="LastName">Last Name </label>
                     <input
                         type="text"
                         placeholder="Enter your Last Name here"
                         id="lastname"
                         name="lastname"
                     ></input>
-                    <label htmlFor="Claimamount">Claim amount: </label>
+                    <label htmlFor="Claimamount">Claim amount </label>
                     <input
                         type="text"
                         placeholder="Enter claim amount here"
