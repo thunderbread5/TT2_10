@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
+const Claim = require("../models/claimModel");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config");
 
@@ -8,14 +9,14 @@ const config = require("../config/auth.config");
 // @route   /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { employeeId, name, email, password, lastName} = req.body;
-    if (!name || !email || !password || !lastName) {
+    const { employeeId, name, password, lastName, age} = req.body;
+    if (!name || !password || !lastName || !age) {
         res.status(400);
         throw new Error("Please include all fields");
     }
 
     // Find if user already exists
-    const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ employeeId });
     if (userExists) {
         res.status(400);
         throw new Error("User already exists");
@@ -30,8 +31,8 @@ const registerUser = asyncHandler(async (req, res) => {
         employeeId,
         name,
         lastName,
-        email,
         password: hashedPassword,
+        age: age
     });
 
     if (user) {
@@ -40,7 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
             employeeId: user.employeeId,
             name: user.name,
             lastName: user.lastName,
-            email: user.email,
+            age: user.age,
         });
     } else {
         res.status(400);
@@ -62,7 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
             employeeId: user.employeeId,
             name: user.name,
             lastName: user.lastName,
-            email: user.email,
+            age: user.age,
             token: generateToken(user.employeeId),
         });
     } else {
@@ -78,7 +79,6 @@ const getMe = asyncHandler(async (req, res) => {
     const user = {
         id: req.user._id,
         employeeId: req.user.employeeId,
-        email: req.user.email,
         name: req.user.name,
         password: req.user.password,
     };
@@ -91,8 +91,84 @@ const generateToken = (id) => {
     });
 };
 
+const addClaim = asyncHandler(async (req, res) => {
+    const { employeeId, claimId, insuranceId, name, lastName, expenseDate, amount, purpose,
+        followUp, previousClaimId, currentStatus, lastEditedClaimDate } = req.body;
+    if (!employeeId || !claimId || !insuranceId) {
+        res.status(400);
+        throw new Error("Please include all fields");
+    }
+
+    // Find if user exists
+    const userExists = await User.findOne({ employeeId });
+    if (!userExists) {
+        res.status(400);
+        throw new Error("User not found");
+    }
+
+    // Create claim
+    const claim = await Claim.create({
+        employeeId,
+        claimId,
+        insuranceId,
+        name,
+        lastName,
+        expenseDate,
+        amount,
+        purpose,
+        followUp,
+        previousClaimId,
+        currentStatus,
+        lastEditedClaimDate,
+    });
+    if (claim) {
+        res.status(201).json({
+            employeeId: claim.employeeId,
+            claimId: claim.claimId,
+            insuranceId: claim.insuranceId,
+            name: claim.name,
+            lastName: claim.lastName,
+            expenseDate: claim.expenseDate,
+            amount: claim.amount,
+            purpose: claim.purpose,
+            followUp: claim.followUp,
+            previousClaimId: claim.previousClaimId,
+            currentStatus: claim.currentStatus,
+            lastEditedClaimDate: claim.lastEditedClaimDate,
+        });
+    } else {
+        res.status(400);
+        throw new Error("Invalid user data");
+    }
+});
+
+const getClaims = asyncHandler(async (req, res) => {
+    const { employeeId } = req.body;
+    if (!employeeId) {
+        res.status(400);
+        throw new Error("Please include employeeId");
+    }
+
+    // Find if user exists
+    const userExists = await User.findOne({ employeeId });
+    if (!userExists) {
+        res.status(400);
+        throw new Error("User not found");
+    }
+
+    // get all claims
+    let claims;
+    claims = await Claim.find({employeeId: employeeId});
+    return res.status(200).json({ claims });
+});
+
+
+
+
 module.exports = {
     registerUser,
     loginUser,
     getMe,
+    addClaim,
+    getClaims,
 };

@@ -22,6 +22,11 @@ const userSchema = mongoose.Schema(
         password: {
             type: String,
             required: [true, "Add password please"],
+        },
+        age: {
+            type: Number,
+            required: [true, "Add age please"],
+            default: 100
         }
     }
 );
