@@ -6,11 +6,6 @@ const claimSchema = mongoose.Schema(
             type: String,
             required: [true, "Add employee ID please"],
         },
-        claimId: {
-            type: Number,
-            unique: true,
-            required: [true, "Add claim ID please"],
-        },
         insuranceId: {
             type: String,
             required: [true, "Add insurance ID please"],

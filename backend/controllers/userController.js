@@ -92,9 +92,9 @@ const generateToken = (id) => {
 };
 
 const addClaim = asyncHandler(async (req, res) => {
-    const { employeeId, claimId, insuranceId, name, lastName, expenseDate, amount, purpose,
+    const { employeeId, insuranceId, expenseDate, amount, purpose,
         followUp, previousClaimId, currentStatus, lastEditedClaimDate } = req.body;
-    if (!employeeId || !claimId || !insuranceId) {
+    if (!employeeId || !insuranceId) {
         res.status(400);
         throw new Error("Please include all fields");
     }
@@ -108,37 +108,23 @@ const addClaim = asyncHandler(async (req, res) => {
 
     // Create claim
     const claim = await Claim.create({
-        employeeId,
-        claimId,
-        insuranceId,
-        name,
-        lastName,
-        expenseDate,
-        amount,
-        purpose,
-        followUp,
-        previousClaimId,
-        currentStatus,
-        lastEditedClaimDate,
+        employeeId: employeeId,
+        insuranceId: insuranceId,
+        name: userExists.name,
+        lastName: userExists.lastName,
+        expenseDate: expenseDate,
+        amount: amount,
+        purpose: purpose,
+        followUp: followUp,
+        previousClaimId: previousClaimId,
+        currentStatus: currentStatus,
+        lastEditedClaimDate: lastEditedClaimDate,
     });
     if (claim) {
-        res.status(201).json({
-            employeeId: claim.employeeId,
-            claimId: claim.claimId,
-            insuranceId: claim.insuranceId,
-            name: claim.name,
-            lastName: claim.lastName,
-            expenseDate: claim.expenseDate,
-            amount: claim.amount,
-            purpose: claim.purpose,
-            followUp: claim.followUp,
-            previousClaimId: claim.previousClaimId,
-            currentStatus: claim.currentStatus,
-            lastEditedClaimDate: claim.lastEditedClaimDate,
-        });
+        res.status(201).json({ claim });
     } else {
         res.status(400);
-        throw new Error("Invalid user data");
+        throw new Error("Invalid claim data");
     }
 });
 
@@ -162,6 +148,26 @@ const getClaims = asyncHandler(async (req, res) => {
     return res.status(200).json({ claims });
 });
 
+const deleteClaim = asyncHandler(async (req, res) => {
+    const { claimId } = req.body;
+    if (!claimId) {
+        res.status(400);
+        throw new Error("Please include claimId");
+    }
+
+    // Find if claim exists
+    const claim = await Claim.findOne({ claimId });
+    if (!claim) {
+        res.status(400);
+        throw new Error("Claim not found");
+    }
+    claim.remove({claimId: claimId});
+    return res.status(200).json({ message: "Successful delete of claimId:" +  claimId});
+
+    // get all claims
+
+});
+
 
 
 
@@ -171,4 +177,5 @@ module.exports = {
     getMe,
     addClaim,
     getClaims,
+    deleteClaim,
 };
