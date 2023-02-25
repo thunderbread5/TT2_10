@@ -215,7 +215,7 @@ const deleteClaim = asyncHandler(async (req, res) => {
     }
 
     // Find if claim exists
-    const claim = await Claim.findOne({ ClaimID });
+    const claim = await Claim.findOne({ "_id": ClaimID });
     if (!claim) {
         res.status(400);
         throw new Error("Claim not found");
