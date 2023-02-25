@@ -1,8 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAlignJustify } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import Home from "./Home";
 
 function ViewClaim() {
+  const [formData, setFormData] = useState({
+    employeeId: "",
+    password: "",
+  });
+
+  const { employeeId, password } = formData;
+
+  //   const onSubmit = (e) => {
+  //     e.preventDefault();
+  //     const userData = {
+  //       employeeId,
+  //       password,
+  //     };
+  //     login(userData);
+  //   };
+
+  function closeButton() {
+    console.log("hello");
+    window.location.href = "/Home";
+  }
+
+  const [isEnabled, setIsEnabled] = useState(true);
+  const editClaim = (e) => {
+    e.preventDefault();
+    setIsEnabled(!isEnabled);
+  };
+
+  const [firstname, changeFirstName] = useState('Alex');
+  function setFirstName(e) {
+    changeFirstName(e.target.value)
+  }
+
+  const [lastname, changeLastName] = useState('Teo');
+  function setLastName(e) {
+    changeLastName(e.target.value)
+  }
+
+  const [amount, changeAmount] = useState('100');
+  function setAmount(e) {
+    changeAmount(e.target.value)
+  }
+
+  const [purpose, changePurpose] = useState('Dentist');
+  function setPurpose(e) {
+    changePurpose(e.target.value)
+  }
+
+
+
   return (
     <div>
       <h1>
@@ -10,88 +61,122 @@ function ViewClaim() {
       </h1>
       <form className="form" onSubmit={""}>
         <div className="form-group">
-          <label htmlFor="firstname">First Name: </label>
-          <h4>hello</h4>
-          <label htmlFor="lastname">Last Name: </label>
-          <label htmlFor="receiptNumber">Receipt Number: </label>
+          <label>Claim ID: </label>
           <input
             type="text"
-            placeholder="Enter your receipt number here"
-            id="ExpenseDate"
-            name="ExpenseDate"
+            className="form-control"
+            id="claimID"
+            name="claimID"
             value={0}
-            disabled={""} //for view function
-          ></input>
-          <label htmlFor="date">Receipt Date: </label>
+            onChange={""}
+            disabled
+          />
+          <label>Insurance ID: </label>
           <input
-            type="date"
-            placeholder="dd-mm-yy"
+            type="text"
+            className="form-control"
+            id="insuranceID"
+            name="insuranceID"
+            value={0}
+            onChange={""}
+            disabled={isEnabled}
+          />
+          <label>First Name: </label>
+          <input
+            type="text"
+            className="form-control"
+            id="firstName"
+            name="firstName"
+            value={firstname}
+            onChange={setFirstName}
+            disabled={isEnabled}
+          />
+          <label>Last Name: </label>
+          <input
+            type="text"
+            className="form-control"
+            id="lastName"
+            name="lastName"
+            value={lastname}
+            onChange={setLastName}
+            disabled={isEnabled}
+            required
+          />
+          <label htmlFor="date">Date: </label>
+          <input
+            type="text"
+            className="form-control"
             id="date"
             name="date"
-          ></input>
-          <label htmlFor="Amount"> Amount </label>
-          <input
-            type="int"
-            id="purpose"
-            name="purpose"
             value={0}
-            disabled={""} //for view function
-          ></input>
-          <label htmlFor="purpose">Purpose of Expenditure: </label>
+            onChange={""}
+            disabled={isEnabled}
+          />
+          <label htmlFor="Amount">Amount: </label>
           <input
             type="text"
-            placeholder="Enter your purpose here"
-            id="purpose"
-            name="purpose"
-            value={0}
-            disabled={""} //for view function
+            className="form-control"
+            id="amount"
+            name="amount"
+            value={amount}
+            onChange={setAmount}
+            disabled={isEnabled}
           ></input>
-          <label htmlFor="followup">FollowUp </label>
+          <label>Purpose of Expenditure: </label>
           <input
             type="text"
-            placeholder="Follow Up"
-            id="followup"
-            name="followup"
+            className="form-control"
+            id="purpose"
+            name="purpose"
+            value={purpose}
+            onChange={setPurpose}
+            disabled={isEnabled}
+          ></input>
+          <label>Follow Up: </label>
+          <input
+            type="text"
+            className="form-control"
+            id="followUp"
+            name="followUp"
             value={0}
-            disabled={""} //for view function
+            disabled
           ></input>
           <label htmlFor="PreviousClaimId">Previous Claim ID </label>
           <input
             type="text"
-            placeholder="PreviousClaimId"
             id="PreviousClaimId"
             name="PreviousClaimId"
             value={0}
-            disabled={""} //for view function
+            disabled
           ></input>
-          <label htmlFor="Status">Status </label>
+          <label>Status: </label>
           <input
             type="text"
-            placeholder="Status"
+            className="form-control"
             id="status"
             name="status"
-            value={'Approved'}
-            disabled={"Approved"} //for view function
+            value={"Approved"}
+            disabled
           ></input>
-          <label htmlFor="LastEditClaimDate">Last Editted Date </label>
+          <label>Last Edited Date: </label>
           <input
             type="text"
-            placeholder="Status"
-            id="status"
-            name="status"
-            value={'0'}
-            disabled={""} //for view function
+            id="lastEditedDate"
+            name="lastEditedDate"
+            value={"0"}
+            disabled
           ></input>
-          
         </div>
-        <button onClick={""} className="btn btn-block">
-          Create Claim
+        <button onClick={editClaim} className="btn btn-block">
+          Edit Claim
         </button>
-        <button onClick={""} className="btn btn-block">
-          Close
-        </button>
+        <Link to="/Home">
+          <button onClick={closeButton} className="btn btn-block">
+            Close
+          </button>
+        </Link>
       </form>
-    </div>
+    </div>  
   );
 }
 //hello
