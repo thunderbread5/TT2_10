@@ -9,14 +9,14 @@ const config = require("../config/auth.config");
 // @route   /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-    const { employeeId, name, password, lastName, age} = req.body;
-    if (!name || !password || !lastName || !age) {
+    const { EmployeeID, FirstName, Password, LastName, Age} = req.body;
+    if (!FirstName || !Password || !LastName || !Age) {
         res.status(400);
         throw new Error("Please include all fields");
     }
 
     // Find if user already exists
-    const userExists = await User.findOne({ employeeId });
+    const userExists = await User.findOne({ EmployeeID });
     if (userExists) {
         res.status(400);
         throw new Error("User already exists");
@@ -24,24 +24,24 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(Password, salt);
 
     // Create user
     const user = await User.create({
-        employeeId,
-        name,
-        lastName,
-        password: hashedPassword,
-        age: age
+        EmployeeID,
+        FirstName,
+        LastName,
+        Password: hashedPassword,
+        Age: Age
     });
 
     if (user) {
         res.status(201).json({
             _id: user._id,
-            employeeId: user.employeeId,
-            name: user.name,
-            lastName: user.lastName,
-            age: user.age,
+            EmployeeID: user.EmployeeID,
+            FirstName: user.FirstName,
+            LastName: user.LastName,
+            Age: user.Age,
         });
     } else {
         res.status(400);
@@ -53,18 +53,18 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-    const { employeeId, password } = req.body;
-    const user = await User.findOne({ employeeId });
+    const { EmployeeID, Password } = req.body;
+    const user = await User.findOne({ EmployeeID });
 
     // check user and password match
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await bcrypt.compare(Password, user.Password))) {
         res.status(200).json({
             _id: user._id,
-            employeeId: user.employeeId,
-            name: user.name,
-            lastName: user.lastName,
-            age: user.age,
-            token: generateToken(user.employeeId),
+            EmployeeID: user.EmployeeID,
+            FirstName: user.FirstName,
+            LastName: user.LastName,
+            Age: user.Age,
+            token: generateToken(user.EmployeeID),
         });
     } else {
         res.status(401);
@@ -78,9 +78,9 @@ const loginUser = asyncHandler(async (req, res) => {
 const getMe = asyncHandler(async (req, res) => {
     const user = {
         id: req.user._id,
-        employeeId: req.user.employeeId,
-        name: req.user.name,
-        password: req.user.password,
+        EmployeeID: req.user.EmployeeID,
+        FirstName: req.user.FirstName,
+        Password: req.user.Password,
     };
     res.status(200).json(user);
 });
@@ -92,15 +92,15 @@ const generateToken = (id) => {
 };
 
 const addClaim = asyncHandler(async (req, res) => {
-    const { employeeId, claimId, insuranceId, name, lastName, expenseDate, amount, purpose,
-        followUp, previousClaimId, currentStatus, lastEditedClaimDate } = req.body;
-    if (!employeeId || !claimId || !insuranceId) {
+    const { EmployeeID, ClaimID, InsuranceID, FirstName, LastName, ExpenseDate, Amount, Purpose,
+        FollowUp, PreviousClaimID, Status, LastEditedClaimDate } = req.body;
+    if (!EmployeeID || !ClaimID || !InsuranceID) {
         res.status(400);
         throw new Error("Please include all fields");
     }
 
     // Find if user exists
-    const userExists = await User.findOne({ employeeId });
+    const userExists = await User.findOne({ EmployeeID });
     if (!userExists) {
         res.status(400);
         throw new Error("User not found");
@@ -108,33 +108,33 @@ const addClaim = asyncHandler(async (req, res) => {
 
     // Create claim
     const claim = await Claim.create({
-        employeeId,
-        claimId,
-        insuranceId,
-        name,
-        lastName,
-        expenseDate,
-        amount,
-        purpose,
-        followUp,
-        previousClaimId,
-        currentStatus,
-        lastEditedClaimDate,
+        EmployeeID,
+        ClaimID,
+        InsuranceID,
+        FirstName,
+        LastName,
+        ExpenseDate,
+        Amount,
+        Purpose,
+        FollowUp,
+        PreviousClaimID,
+        Status,
+        LastEditedClaimDate,
     });
     if (claim) {
         res.status(201).json({
-            employeeId: claim.employeeId,
-            claimId: claim.claimId,
-            insuranceId: claim.insuranceId,
-            name: claim.name,
-            lastName: claim.lastName,
-            expenseDate: claim.expenseDate,
-            amount: claim.amount,
-            purpose: claim.purpose,
-            followUp: claim.followUp,
-            previousClaimId: claim.previousClaimId,
-            currentStatus: claim.currentStatus,
-            lastEditedClaimDate: claim.lastEditedClaimDate,
+            EmployeeID: claim.EmployeeID,
+            ClaimID: claim.ClaimID,
+            InsuranceID: claim.InsuranceID,
+            FirstName: claim.FirstName,
+            LastName: claim.LastName,
+            ExpenseDate: claim.ExpenseDate,
+            Amount: claim.Amount,
+            Purpose: claim.Purpose,
+            FollowUp: claim.FollowUp,
+            PreviousClaimID: claim.PreviousClaimID,
+            Status: claim.Status,
+            LastEditedClaimDate: claim.LastEditedClaimDate,
         });
     } else {
         res.status(400);
