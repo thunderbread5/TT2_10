@@ -6,7 +6,7 @@ const {
     addPolicy,
     getPolicies,
     addClaim,
-    getClaims, deleteClaim,
+    getClaims, deleteClaim, updateClaim,
 } = require("../controllers/userController");
 const router = express.Router();
 const {protect} = require("../middleware/authMiddleware");
@@ -19,6 +19,7 @@ router.get("/policies", protect, getPolicies);
 router.post("/claims", protect, addClaim);
 router.get("/claims", protect, getClaims);
 router.post("/claims/delete", protect, deleteClaim);
+router.put("/claims/update", protect, updateClaim);
 
 
 module.exports = router;

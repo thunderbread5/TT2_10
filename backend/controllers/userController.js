@@ -152,6 +152,11 @@ const addClaim = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("Please include all fields");
     }
+    const insuranceExists = await Policy.findOne({ "InsuranceID": InsuranceID });
+    if (!insuranceExists) {
+        res.status(400);
+        throw new Error("Policy not found");
+    }
 
     // Find if user exists
     const userExists = await User.findOne({ EmployeeID });
@@ -222,6 +227,30 @@ const deleteClaim = asyncHandler(async (req, res) => {
 
 });
 
+const updateClaim = asyncHandler(async (req, res) => {
+    const { id_, InsuranceID, ExpenseDate, Amount, Purpose,
+        FollowUp, PreviousClaimID, Status, LastEditedClaimDate } = req.body;
+
+    if (!id_) {
+        res.status(400);
+        throw new Error("Please include claimId");
+    }
+
+    let claim;
+    // Find if claim exists
+
+    claim = await Claim.findByIdAndUpdate(id_, {InsuranceID: InsuranceID, ExpenseDate: ExpenseDate,
+        Amount: Amount, Purpose: Purpose, FollowUp: FollowUp, PreviousClaimID: PreviousClaimID,
+        Status: Status, LastEditedClaimDate: LastEditedClaimDate});
+    if (!claim) {
+        return res.status(500).json({message: "Unable to save user"});
+    }
+    return res.status(200).json({message: "Updated Success"});
+
+    // get all claims
+
+});
+
 module.exports = {
     registerUser,
     loginUser,
@@ -231,4 +260,5 @@ module.exports = {
     addClaim,
     getClaims,
     deleteClaim,
+    updateClaim
 };

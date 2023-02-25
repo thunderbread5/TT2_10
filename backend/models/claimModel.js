@@ -48,7 +48,7 @@ const claimSchema = mongoose.Schema(
         LastEditedClaimDate: {
             type: String,
             required: [true, "Add last edited claim date please"],
-            default: Date.now().toString(),
+            default: new Date().toLocaleString(),
         }
     }
 );
