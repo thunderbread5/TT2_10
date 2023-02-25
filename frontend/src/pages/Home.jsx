@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FaQuestionCircle, FaTicketAlt } from "react-icons/fa";
+import { FaEye, FaPen } from "react-icons/fa";
 import UserContext from "../context/user/UserContext";
+import ClaimItem from "../components/ClaimItem";
 
 function Home() {
-    const { user } = useContext(UserContext);
+    const { user, claims } = useContext(UserContext);
 
     if (!user) {
         return (
@@ -18,33 +19,21 @@ function Home() {
 
     return (
         <div>
-            <table className="claimTable">
-                <tr>
-                    <th>Claim ID</th>
-                    <th>Expense Date</th>
-                    <th>Amount</th>
-                    <th>Purpose</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                <tr>
-                    <td>2010</td>
-                    <td>Date of Claim</td>
-                    <td>100.00</td>
-                    <td>Dentist</td>
-                    <td>Approved</td>
-                    <td>
-                        <button>View</button>
-                        <button>Edit</button>
-                    </td>
-                </tr>
-            </table>
-            {/* <Link to="/" className="btn btn-reverse btn-block">
-                <FaQuestionCircle /> Option 1
-            </Link>
-            <Link to="/" className="btn btn-block">
-                <FaTicketAlt /> Option 2
-            </Link> */}
+            <h1>Claims</h1>
+            <div className="tickets">
+                <div className="ticket-headings">
+                    <div>Claim ID</div>
+                    <div>Expense Date</div>
+                    <div>Amount</div>
+                    <div>Purpose</div>
+                    <div>Status</div>
+                    <div>Actions</div>
+                    <div></div>
+                </div>
+                {claims.map((claim) => (
+                    <ClaimItem key={claim.claimId} claim={claim} />
+                ))}
+            </div>
         </div>
     );
 }

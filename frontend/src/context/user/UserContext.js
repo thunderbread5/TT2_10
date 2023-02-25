@@ -4,7 +4,7 @@ import userReducer from "./UserReducer";
 
 const UserContext = createContext();
 
-const API_URL = "api/users/";
+const API_URL = "http://localhost:5000/api/users/";
 
 export const UserProvider = ({ children }) => {
     const initialState = {
@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
         isSuccess: false,
         loading: false,
         message: "",
+        claims: [],
     };
 
     const [state, dispatch] = useReducer(userReducer, initialState);
@@ -45,6 +46,7 @@ export const UserProvider = ({ children }) => {
             if (response.data) {
                 localStorage.setItem("user", JSON.stringify(response.data));
                 dispatch({ type: "LOGIN_USER", payload: response.data });
+                getClaims(response.data);
             }
         } catch (error) {
             const message =
@@ -60,6 +62,26 @@ export const UserProvider = ({ children }) => {
     // Logout user
     const logout = () => localStorage.removeItem("user");
 
+    const getClaims = async (userData) => {
+        setLoading();
+        try {
+            const response = await axios.post(API_URL + "getClaims*****", userData.employeeId);
+            dispatch({ type: "GET_CLAIMS", payload: response.data });
+        } catch (error) {
+            dispatch({ type: "CLAIMS_ERROR", payload: error.message });
+        }
+    }
+
+    const addClaim = async (claimData) => {
+        setLoading();
+        try {
+            const response = await axios.post(API_URL + "claims", claimData);
+            dispatch({ type: "ADD_CLAIM", payload: response.data });
+        } catch (error) {
+            dispatch({ type: "ADD_CLAIM_ERROR", payload: error.message });
+        }
+    }
+
     const setLoading = () => {
         dispatch({ type: "SET_LOADING" });
     };
@@ -72,9 +94,12 @@ export const UserProvider = ({ children }) => {
                 isError: state.isError,
                 isSuccess: state.isSuccess,
                 message: state.message,
+                claims: state.claims,
                 login,
                 register,
                 logout,
+                getClaims,
+                addClaim,
             }}
         >
             {children}

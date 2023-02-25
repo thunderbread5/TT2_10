@@ -1,73 +1,85 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaRegPlusSquare } from "react-icons/fa";
+import UserContext from "../context/user/UserContext";
 
 function NewClaim() {
-  return (
-    <div>
-      <h1>
-        <FaRegPlusSquare/> Create Claim
-      </h1>
-      <form className="form" onSubmit={""}>
-        <div className="form-group">
-          <label htmlFor="email">First Name: </label>
-          <input
-            type="text"
-            placeholder="Enter your first name here"
-            id="FirstName"
-            name="FirstName"
-          ></input>
-          <label htmlFor="password">Last Name: </label>
-          <input
-            type="text"
-            placeholder="Enter your last name here"
-            id="LastName"
-            name="LastName"
-          ></input>
-          <label htmlFor="receiptNumber">Receipt Number: </label>
-          <input
-            type="text"
-            placeholder="Enter your receipt number here"
-            id="ExpenseDate"
-            name="ExpenseDate"
-          ></input>
-          <label htmlFor="date">Receipt Date: </label>
-          <input
-            type="date"
-            placeholder="dd-mm-yy"
-            id="date"
-            name="date"
-          ></input>
-          <label htmlFor="purpose">Purpose of Expenditure: </label>
-          <input
-            type="text"
-            placeholder="Enter your purpose here"
-            id="purpose"
-            name="purpose"
-          ></input>
-          <label htmlFor="email"></label>
-            Follow up?
-            <input
-              value="Yes"
-              onChange={""}
-              type="radio"
-              id="FollowUp"
-              name="FollowUp"
-            />
-            <input
-              value="No"
-              onChange={""}
-              type="radio"
-              id="FollowUp"
-              name="FollowUp"
-            />
+    const [formData, setFormData] = useState({
+        expenseDate: "",
+        amount: "",
+        purpose: "",
+        followUp: 0,
+        prevClaimId: -1,
+    });
+
+    const { expenseDate, amount, purpose, followUp, prevClaimId } = formData;
+
+    const navigate = useNavigate();
+
+    const { user, loading, isSuccess, message, login, isError, addClaim } =
+        useContext(UserContext);
+
+    const onChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const claimData = {
+            expenseDate,
+            amount,
+            purpose,
+            followUp,
+            prevClaimId,
+        };
+        addClaim(claimData);
+    };
+    return (
+        <div>
+            <h1>
+                <FaRegPlusSquare /> Create Claim
+            </h1>
+            <form onSubmit={onSubmit}>
+                <div className="form-group">
+                    <label htmlFor="receiptNumber">Receipt Number: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter your receipt number here"
+                        id="receiptNumber"
+                        name="receiptNumber"
+                    ></input>
+                    <label htmlFor="expenseDate">Receipt Date: </label>
+                    <input
+                        type="date"
+                        placeholder="dd-mm-yy"
+                        id="expenseDate"
+                        name="expenseDate"
+                        value={expenseDate}
+                        onChange={onChange}
+                        required
+                    ></input>
+                    <label htmlFor="purpose">Purpose: </label>
+                    <input
+                        type="text"
+                        placeholder="Enter your purpose here"
+                        id="purpose"
+                        name="purpose"
+                        value={purpose}
+                        onChange={onChange}
+                        required
+                    ></input>
+                    {/* <label htmlFor="email">Follow up: </label> */}
+                </div>
+                <div className="form-group">
+                    <button className="btn btn-block">Create Claim</button>
+                </div>
+            </form>
         </div>
-        <button onClick={""} className="btn btn-block">
-          Create Claim
-        </button>
-      </form>
-    </div>
-  );
+    );
 }
 //hello
 export default NewClaim;
