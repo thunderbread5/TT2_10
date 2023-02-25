@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Header from "./components/Header";
 import { UserProvider } from "./context/user/UserContext";
+import NewClaim from "./pages/NewClaim";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
+                            <Route path="/newclaim" element={<NewClaim />} />
                         </Routes>
                     </div>
                 </Router>
